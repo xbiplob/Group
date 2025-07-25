@@ -123,7 +123,6 @@ body {
 #username {
     font-weight: bold;
     font-size: 1.1rem;
-    color: white;
 }
 
 .messages {
@@ -135,11 +134,8 @@ body {
 
 .message {
     display: flex;
-    align-items: flex-start;
     margin-bottom: 15px;
     animation: fadeIn 0.3s ease;
-    max-width: 100%;
-    word-break: break-word;
 }
 
 @keyframes fadeIn {
@@ -163,48 +159,62 @@ body {
 
 .message-content {
     display: inline-block;
-    background-color: rgba(66, 133, 244, 0.6); /* Blue */
-    border-radius: var(--border-radius);
-    padding: 10px 15px;
-    color: white;
     max-width: 80%;
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .message-header {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
+    justify-content: space-between;
 }
 
 .message-sender {
     font-weight: bold;
-    font-size: 0.9rem;
-    color: white;
-    margin-right: 10px;
+    color: #ffffff; /* White sender name */
+    font-size: 0.95rem;
 }
 
 .message-time {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--gray-color);
+    margin-left: 10px;
 }
 
 .message-text {
-    font-size: 1rem;
-    line-height: 1.5;
+    background: linear-gradient(145deg, #1e88e5, #1565c0); /* blue */
     color: white;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.4;
+    display: inline-block;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
+/* Own message styling */
 .own-message {
     justify-content: flex-end;
 }
 
 .own-message .message-content {
-    background-color: rgba(66, 133, 244, 0.6); /* Blue for own message too */
+    order: -1;
     text-align: right;
 }
 
-/* Input */
+.own-message .message-header {
+    justify-content: flex-end;
+}
+
+.own-message .message-text {
+    background: linear-gradient(145deg, #00c853, #1b5e20); /* green */
+    color: white;
+    border-radius: 10px;
+}
+
+/* Input and Buttons */
 .message-input {
     display: flex;
     padding: 15px;
@@ -227,7 +237,6 @@ body {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Buttons */
 .btn {
     padding: 10px 20px;
     border: none;
@@ -267,7 +276,7 @@ body {
     padding: 12px 20px;
 }
 
-/* Hidden Class */
+/* Utility Classes */
 .hidden {
     display: none !important;
 }
@@ -276,17 +285,14 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
 }
-
 ::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb {
     background: var(--primary-color);
     border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
     background: #3367d6;
 }
@@ -305,16 +311,6 @@ body {
         height: 100vh;
         max-height: none;
         border-radius: 0;
-    }
-
-    .message-content {
-        max-width: 80%;
-    }
-}
-
-@media (max-width: 480px) {
-    .auth-container {
-        padding: 20px;
     }
 
     .message-content {
