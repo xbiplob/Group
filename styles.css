@@ -43,7 +43,7 @@ body, html {
   transition: all 0.3s ease;
 }
 
-/* Auth Section */
+/* Auth Box */
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -158,13 +158,13 @@ body, html {
   word-break: break-word;
 }
 
-/* Message Header: sender + time */
+/* ✅ Sender Name & Time Layout */
 .message-header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 6px;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   flex-wrap: nowrap;
 }
 
@@ -181,7 +181,7 @@ body, html {
   white-space: nowrap;
 }
 
-/* Message Text */
+/* 💬 Message Text Box */
 .message-text {
   background: linear-gradient(145deg, #1e88e5, #1565c0);
   color: white;
@@ -194,7 +194,7 @@ body, html {
   word-wrap: break-word;
 }
 
-/* Own Message */
+/* ✅ Own Message Styling */
 .own-message {
   justify-content: flex-end;
 }
@@ -205,18 +205,18 @@ body, html {
 }
 
 .own-message .message-header {
-  flex-direction: row;
-  justify-content: flex-end;
+  display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 6px;
+  margin-bottom: 4px;
   flex-wrap: nowrap;
-  margin-bottom: 3px;
 }
 
 .own-message .message-sender {
-  font-size: 0.72rem;
   font-weight: 600;
   color: #ffffff;
+  font-size: 0.72rem;
 }
 
 .own-message .message-time {
