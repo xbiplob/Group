@@ -20,7 +20,10 @@ body {
     background-color: var(--dark-color);
     color: var(--light-color);
     height: 100vh;
-    overflow: hidden;
+    overflow: hidden; /* Prevent body scroll, let inner containers scroll */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center;
+    align-items: center;
 }
 
 .matrix-bg {
@@ -29,12 +32,21 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, #000000, #0a0a0a);
-    z-index: -1;
+    background: linear-gradient(to bottom, #000000, #0a0a0a); /* Dark gradient for overlay */
+    z-index: -2; /* Ensure it's behind the main content */
     overflow: hidden;
 }
 
-.matrix-bg::before {
+/* Canvas for the C-matrix effect */
+#matrixCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Allow the gradient from .matrix-bg to show through */
+}
+
+/* This ::before was for a simple animation, now the canvas will handle the matrix effect */
+/* .matrix-bg::before {
     content: "";
     position: absolute;
     top: 0;
@@ -43,32 +55,36 @@ body {
     height: 100%;
     background: linear-gradient(transparent 90%, rgba(0, 255, 0, 0.1));
     animation: matrix 5s linear infinite;
-}
+} */
 
-@keyframes matrix {
+/* @keyframes matrix {
     0% {
         background-position: 0 0;
     }
     100% {
         background-position: 0 100%;
     }
-}
+} */
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
     padding: 20px;
+    z-index: 1; /* Ensure container is above the matrix background */
+    position: relative; /* Needed for z-index to work */
 }
 
 .auth-container, .chat-container {
-    background-color: rgba(32, 33, 36, 0.9);
+    background-color: rgba(32, 33, 36, 0.9); /* Slightly transparent dark background */
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     width: 100%;
     max-width: 800px;
     transition: all 0.3s ease;
+    overflow: hidden; /* Ensures content within stays within rounded corners */
 }
 
 /* Auth Container */
@@ -93,9 +109,8 @@ body {
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: 90vh; /* Adjusted for better fit on larger screens */
     max-height: 800px;
-    overflow: hidden;
 }
 
 .chat-header {
@@ -319,3 +334,4 @@ body {
         max-width: 90%;
     }
 }
+
