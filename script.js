@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         signOut,
         onAuthStateChanged
     } = window.firebase;
-    
+
     const messagesRef = ref(database, 'messages');
 
     // Monitor login status
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         authContainer.classList.add('hidden');
         chatContainer.classList.remove('hidden');
         userAvatar.src = user.photoURL || '';
-        usernameSpan.textContent = user.displayName || 'Anonymous';
+        usernameSpan.textContent = formatName(user.displayName || 'Anonymous');
         loadMessages();
     }
 
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <img class="message-avatar" src="${message.photoURL}" alt="${message.name}">
             <div class="message-content">
                 <div class="message-header">
-                    <span class="message-sender">${message.name}</span>
+                    <span class="message-sender">${formatName(message.name)}</span>
                     <span class="message-time">${formatTime(message.timestamp)}</span>
                 </div>
                 <div class="message-text">${escapeHTML(message.text)}</div>
@@ -159,5 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
             "'": '&#39;',
             '"': '&quot;'
         }[tag]));
+    }
+
+    // NEW: Format name to first 2 words only
+    function formatName(fullName) {
+        if (!fullName) return 'Anonymous';
+        const parts = fullName.trim().split(' ');
+        return parts.slice(0, 2).join(' ');
     }
 });
