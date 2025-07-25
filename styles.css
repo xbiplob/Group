@@ -1,11 +1,11 @@
 :root {
-    --primary-color: #4285f4;
+    --primary-color: #00ff00;
     --secondary-color: #34a853;
     --accent-color: #ea4335;
-    --dark-color: #202124;
+    --dark-color: #000000;
     --light-color: #f8f9fa;
     --gray-color: #5f6368;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
     --border-radius: 8px;
 }
 
@@ -13,81 +13,50 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: monospace;
 }
 
 body {
     background-color: var(--dark-color);
-    color: var(--light-color);
+    color: #00ff00;
     height: 100vh;
-    overflow: hidden; /* Prevent body scroll, let inner containers scroll */
-    display: flex; /* Use flexbox for centering */
-    justify-content: center;
-    align-items: center;
+    overflow: hidden;
 }
 
 .matrix-bg {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: -1;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, #000000, #0a0a0a); /* Dark gradient for overlay */
-    z-index: -2; /* Ensure it's behind the main content */
+    background: black;
     overflow: hidden;
 }
 
-/* Canvas for the C-matrix effect */
-#matrixCanvas {
+.matrix-bg canvas {
     display: block;
     width: 100%;
     height: 100%;
-    background-color: transparent; /* Allow the gradient from .matrix-bg to show through */
 }
-
-/* This ::before was for a simple animation, now the canvas will handle the matrix effect */
-/* .matrix-bg::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(transparent 90%, rgba(0, 255, 0, 0.1));
-    animation: matrix 5s linear infinite;
-} */
-
-/* @keyframes matrix {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 0 100%;
-    }
-} */
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-    width: 100vw; /* Full viewport width */
+    height: 100vh;
     padding: 20px;
-    z-index: 1; /* Ensure container is above the matrix background */
-    position: relative; /* Needed for z-index to work */
 }
 
 .auth-container, .chat-container {
-    background-color: rgba(32, 33, 36, 0.9); /* Slightly transparent dark background */
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    box-shadow: 0 0 20px #00ff00;
     width: 100%;
     max-width: 800px;
     transition: all 0.3s ease;
-    overflow: hidden; /* Ensures content within stays within rounded corners */
 }
 
-/* Auth Container */
 .auth-container {
     padding: 40px;
     text-align: center;
@@ -96,21 +65,21 @@ body {
 .auth-box h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    color: var(--primary-color);
+    color: #00ff00;
 }
 
 .auth-box p {
     font-size: 1.1rem;
     margin-bottom: 30px;
-    color: var(--light-color);
+    color: #ffffffaa;
 }
 
-/* Chat Container */
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 90vh; /* Adjusted for better fit on larger screens */
+    height: 90vh;
     max-height: 800px;
+    overflow: hidden;
 }
 
 .chat-header {
@@ -118,8 +87,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: rgba(66, 133, 244, 0.1);
-    border-bottom: 1px solid var(--gray-color);
+    background-color: rgba(0, 255, 0, 0.1);
+    border-bottom: 1px solid #00ff00;
 }
 
 .user-info {
@@ -138,13 +107,14 @@ body {
 #username {
     font-weight: bold;
     font-size: 1.1rem;
+    color: #00ff00;
 }
 
 .messages {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    background-color: rgba(32, 33, 36, 0.7);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .message {
@@ -185,19 +155,23 @@ body {
 .message-sender {
     font-weight: bold;
     margin-right: 10px;
-    color: var(--primary-color);
+    color: #00ff00;
 }
 
 .message-time {
     font-size: 0.8rem;
-    color: var(--gray-color);
+    color: #a0ffa0;
 }
 
 .message-text {
-    background-color: rgba(66, 133, 244, 0.2);
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #00ff00;
     padding: 10px 15px;
-    border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+    border: 1px solid #00ff00;
+    border-radius: 10px;
     word-wrap: break-word;
+    font-family: monospace;
+    box-shadow: 0 0 10px #00ff00;
 }
 
 .own-message {
@@ -214,15 +188,16 @@ body {
 }
 
 .own-message .message-text {
-    background-color: rgba(52, 168, 83, 0.2);
-    border-radius: var(--border-radius) 0 var(--border-radius) var(--border-radius);
+    background-color: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 10px #00ff00;
 }
 
 .message-input {
     display: flex;
     padding: 15px;
-    background-color: rgba(32, 33, 36, 0.9);
-    border-top: 1px solid var(--gray-color);
+    background-color: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid #00ff00;
 }
 
 #message-input {
@@ -230,14 +205,15 @@ body {
     padding: 12px 15px;
     border: none;
     border-radius: var(--border-radius);
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--light-color);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #00ff00;
     font-size: 1rem;
     outline: none;
+    box-shadow: 0 0 5px #00ff00 inset;
 }
 
-#message-input:focus {
-    background-color: rgba(255, 255, 255, 0.15);
+#message-input::placeholder {
+    color: #00ff00aa;
 }
 
 /* Buttons */
@@ -256,7 +232,7 @@ body {
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    box-shadow: 0 0 10px #00ff00;
 }
 
 .btn:active {
@@ -264,23 +240,21 @@ body {
 }
 
 .google-btn {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: #00ff00;
+    color: black;
 }
 
 .logout-btn {
-    background-color: var(--accent-color);
+    background-color: #ff4444;
     color: white;
-    padding: 8px 15px;
 }
 
 .send-btn {
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 12px 20px;
+    background-color: #00ff00;
+    color: black;
 }
 
-/* Utility Classes */
+/* Utility */
 .hidden {
     display: none !important;
 }
@@ -289,37 +263,34 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 255, 0, 0.05);
     border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
+    background: #00ff00;
     border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-    background: #3367d6;
+    background: #00cc00;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
     .auth-box h1 {
         font-size: 2rem;
     }
-    
+
     .auth-box p {
         font-size: 1rem;
     }
-    
+
     .chat-container {
         height: 100vh;
         max-height: none;
         border-radius: 0;
     }
-    
+
     .message-content {
         max-width: 80%;
     }
@@ -329,9 +300,8 @@ body {
     .auth-container {
         padding: 20px;
     }
-    
+
     .message-content {
         max-width: 90%;
     }
 }
-
