@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameSpan = document.getElementById('username');
     const notificationSound = document.getElementById('notification-sound');
 
-    // Firebase references
+    // Firebase references (made available via window.firebase in index.html)
     const { auth, provider, database, ref, push, onValue, off, set, signInWithPopup, signOut, onAuthStateChanged } = window.firebase;
     const messagesRef = ref(database, 'messages');
     
@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         signInWithPopup(auth, provider)
             .catch((error) => {
                 console.error('Error during sign in:', error);
-                alert('Error during sign in. Please try again.');
+                // Replaced alert with console.error
+                console.error('Error during sign in. Please try again.');
             });
     }
 
@@ -145,7 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch((error) => {
                 console.error('Error sending message:', error);
-                alert('Failed to send message. Please try again.');
+                // Replaced alert with console.error
+                console.error('Failed to send message. Please try again.');
             });
     }
 
@@ -153,4 +155,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const date = new Date(timestamp);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
+
+    // C-Matrix Background Animation
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let W, H; // Width and Height of the canvas
+    let font_size = 16;
+    let columns; // Number of columns for the rain
+    let drops = []; // Array to store the y-position of each drop
+
+    // Characters to be used in the matrix rain
+    const characters = 'アァカサタナハマヤラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユルグズヅブプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const charArr = characters.split('');
+
+    function initializeMatrix() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+
+        columns = Math.floor(W / font_size); // Number of columns
+        drops = []; // Reset drops array
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1; // Start each drop at the top
+        }
+    }
+
+    function drawMatrix() {
+        // Darken the background slightly to create the fading trail effect
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.fillStyle = '#0F0'; // Green text
+        ctx.font = `${font_size}px monospace`;
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = charArr[Math.floor(Math.random() * charArr.length)];
+            ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+            // Sending the drop back to the top randomly after it has crossed the screen
+            // Adding a randomness to the reset to make the drops scattered
+            if (drops[i] * font_size > H && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+
+            // Incrementing Y coordinate
+            drops[i]++;
+        }
+    }
+
+    // Initialize and start the matrix animation
+    initializeMatrix();
+    setInterval(drawMatrix, 33); // Approximately 30 frames per second
+
+    // Handle window resize to make the matrix responsive
+    window.addEventListener('resize', initializeMatrix);
 });
