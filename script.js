@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ✅ MODIFIED: displayMessage for Name-Time order
     function displayMessage(message) {
         const currentUser = auth.currentUser;
         const isOwnMessage = message.userId === currentUser?.uid;
@@ -105,12 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
             notificationSound.play().catch(e => console.log('Sound play failed:', e));
         }
 
-        // 🛠 Name-Time order condition
-        const headerHTML = isOwnMessage
-            ? `<span class="message-time">${formatTime(message.timestamp)}</span>
-               <span class="message-sender">${formatName(message.name)}</span>`
-            : `<span class="message-sender">${formatName(message.name)}</span>
-               <span class="message-time">${formatTime(message.timestamp)}</span>`;
+        // ✅ Format: name first, then time
+        const headerHTML = `
+            <span class="message-sender">${formatName(message.name)}</span>
+            <span class="message-time">${formatTime(message.timestamp)}</span>
+        `;
 
         messageElement.innerHTML = `
             <img class="message-avatar" src="${message.photoURL}" alt="${message.name}">
@@ -168,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }[tag]));
     }
 
-    // Format name to first 2 words only
+    // ✅ Show only first 2 words of name
     function formatName(fullName) {
         if (!fullName) return 'Anonymous';
         const parts = fullName.trim().split(' ');
