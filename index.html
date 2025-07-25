@@ -1,127 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LiveGroup - Real-time Group Chat</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveGroup - Real-time Group Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 </head>
 <body>
-    <!-- Matrix Canvas Background -->
-    <div class="matrix-bg"></div>
-
-    <div class="container">
-        <!-- Auth Box -->
-        <div id="auth-container" class="auth-container">
-            <div class="auth-box">
-                <h1>LiveGroup</h1>
-                <p>Real-time group chat with audio/video calls</p>
-                <button id="google-login" class="btn google-btn">
-                    <i class="fab fa-google"></i> Sign in with Google
-                </button>
-            </div>
-        </div>
-
-        <!-- Chat Box -->
-        <div id="chat-container" class="chat-container hidden">
-            <div class="chat-header">
-                <div class="user-info">
-                    <img id="user-avatar" src="" alt="User Avatar">
-                    <span id="username"></span>
-                </div>
-                <button id="logout-btn" class="btn logout-btn">Logout</button>
-            </div>
-            
-            <div id="messages" class="messages"></div>
-            
-            <div class="message-input">
-                <input id="message-input" type="text" placeholder="Type your message...">
-                <button id="send-btn" class="btn send-btn"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
+  <div class="container">
+    <!-- Auth Box -->
+    <div id="auth-container" class="auth-container">
+      <div class="auth-box">
+        <h1>LiveGroup</h1>
+        <p>Real-time group chat with audio/video calls</p>
+        <button id="google-login" class="btn google-btn">
+          <i class="fab fa-google"></i> Sign in with Google
+        </button>
+      </div>
     </div>
 
-    <!-- Notification Sound -->
-    <audio id="notification-sound" src="notification.mp3" preload="auto"></audio>
+    <!-- Chat Box -->
+    <div id="chat-container" class="chat-container hidden">
+      <div class="chat-header">
+        <div class="user-info">
+          <img id="user-avatar" src="" alt="User Avatar" />
+          <span id="username"></span>
+        </div>
+        <button id="logout-btn" class="btn logout-btn">Logout</button>
+      </div>
 
-    <!-- Firebase Setup -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-        import { getDatabase, ref, push, onValue, off, set } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+      <div id="messages" class="messages"></div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCgBh87HhgBJNDJyJNub3iuLVh62J3wDYw",
-            authDomain: "livecaht-b833d.firebaseapp.com",
-            databaseURL: "https://livecaht-b833d-default-rtdb.firebaseio.com",
-            projectId: "livecaht-b833d",
-            storageBucket: "livecaht-b833d.appspot.com",
-            messagingSenderId: "242190184147",
-            appId: "1:242190184147:web:906390e348ed7fea942e26",
-            measurementId: "G-N7DBQKRJ39"
-        };
+      <div class="message-input">
+        <input
+          id="message-input"
+          type="text"
+          placeholder="Type your message..."
+        />
+        <button id="send-btn" class="btn send-btn">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const database = getDatabase(app);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+  <!-- Notification Sound -->
+  <audio id="notification-sound" src="notification.mp3" preload="auto"></audio>
 
-        // Make these available to other scripts
-        window.firebase = {
-            auth,
-            provider,
-            database,
-            ref,
-            push,
-            onValue,
-            off,
-            set,
-            signInWithPopup,
-            signOut,
-            onAuthStateChanged
-        };
-    </script>
+  <!-- Firebase Setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+    import {
+      getDatabase,
+      ref,
+      push,
+      onValue,
+      off,
+      set,
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+    import {
+      getAuth,
+      signInWithPopup,
+      GoogleAuthProvider,
+      signOut,
+      onAuthStateChanged,
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-    <!-- Chat Logic -->
-    <script src="script.js"></script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCgBh87HhgBJNDJyJNub3iuLVh62J3wDYw",
+      authDomain: "livecaht-b833d.firebaseapp.com",
+      databaseURL: "https://livecaht-b833d-default-rtdb.firebaseio.com",
+      projectId: "livecaht-b833d",
+      storageBucket: "livecaht-b833d.appspot.com",
+      messagingSenderId: "242190184147",
+      appId: "1:242190184147:web:906390e348ed7fea942e26",
+      measurementId: "G-N7DBQKRJ39",
+    };
 
-    <!-- Matrix Canvas Script -->
-    <script>
-        const canvas = document.createElement("canvas");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        document.querySelector('.matrix-bg').appendChild(canvas);
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-        const ctx = canvas.getContext("2d");
-        const letters = "アァイィウエカキクケコサシスセソABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array.from({ length: columns }).fill(1);
+    window.firebase = {
+      auth,
+      provider,
+      database,
+      ref,
+      push,
+      onValue,
+      off,
+      set,
+      signInWithPopup,
+      signOut,
+      onAuthStateChanged,
+    };
+  </script>
 
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "#0f0";
-            ctx.font = `${fontSize}px monospace`;
-
-            drops.forEach((y, i) => {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, y * fontSize);
-                if (y * fontSize > canvas.height || Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-
-        setInterval(drawMatrix, 50);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
+  <!-- Chat Logic -->
+  <script src="script.js"></script>
 </body>
 </html>
