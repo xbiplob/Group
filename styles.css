@@ -160,21 +160,27 @@ body, html {
 
 .message-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 4px;
   justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .message-sender {
   font-weight: bold;
   color: #ffffff;
   font-size: 0.95rem;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .message-time {
   font-size: 0.75rem;
   color: var(--gray-color);
-  margin-left: 10px;
+  white-space: nowrap;
 }
 
 .message-text {
@@ -200,7 +206,16 @@ body, html {
 }
 
 .own-message .message-header {
+  flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.own-message .message-sender {
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .own-message .message-text {
