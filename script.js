@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const authContainer = document.getElementById('auth-container');
     const chatContainer = document.getElementById('chat-container');
-    const callContainer = document.getElementById('call-container');
     const googleLoginBtn = document.getElementById('google-login');
     const logoutBtn = document.getElementById('logout-btn');
     const messageInput = document.getElementById('message-input');
@@ -11,35 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const userAvatar = document.getElementById('user-avatar');
     const usernameSpan = document.getElementById('username');
     const notificationSound = document.getElementById('notification-sound');
-    const audioCallBtn = document.getElementById('audio-call-btn');
-    const videoCallBtn = document.getElementById('video-call-btn');
-    const endCallBtn = document.getElementById('end-call-btn');
-    const toggleAudioBtn = document.getElementById('toggle-audio-btn');
-    const toggleVideoBtn = document.getElementById('toggle-video-btn');
-    const localVideo = document.getElementById('local-video');
-    const remoteVideo = document.getElementById('remote-video');
 
     // Firebase references
     const { auth, provider, database, ref, push, onValue, off, set, signInWithPopup, signOut, onAuthStateChanged } = window.firebase;
     const messagesRef = ref(database, 'messages');
     
-    // WebRTC variables
-    let localStream;
-    let remoteStream;
-    let peerConnection;
-    let isCaller = false;
-    let isAudioMuted = false;
-    let isVideoOff = false;
-    
-    // STUN servers configuration
-    const configuration = {
-        iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:stun2.l.google.com:19302' }
-        ]
-    };
-
     // Initialize Firebase auth state listener
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -60,11 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sendMessage();
         }
     });
-    audioCallBtn.addEventListener('click', () => startCall(false));
-    videoCallBtn.addEventListener('click', () => startCall(true));
-    endCallBtn.addEventListener('click', endCall);
-    toggleAudioBtn.addEventListener('click', toggleAudio);
-    toggleVideoBtn.addEventListener('click', toggleVideo);
 
     // Functions
     function signInWithGoogle() {
@@ -76,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function signOutUser() {
-        endCall();
         signOut(auth).catch((error) => {
             console.error('Error signing out:', error);
         });
@@ -183,168 +152,5 @@ document.addEventListener('DOMContentLoaded', () => {
     function formatTime(timestamp) {
         const date = new Date(timestamp);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-
-    // WebRTC Functions
-    async function startCall(withVideo) {
-        try {
-            // Get local media stream
-            localStream = await navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: withVideo
-            });
-            
-            // Create peer connection
-            peerConnection = new RTCPeerConnection(configuration);
-            
-            // Set up event handlers
-            peerConnection.onicecandidate = handleICECandidateEvent;
-            peerConnection.oniceconnectionstatechange = handleICEConnectionStateChangeEvent;
-            peerConnection.onicegatheringstatechange = handleICEGatheringStateChangeEvent;
-            peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
-            peerConnection.ontrack = handleTrackEvent;
-            
-            // Add local stream to peer connection
-            localStream.getTracks().forEach(track => {
-                peerConnection.addTrack(track, localStream);
-            });
-            
-            // Display local video
-            localVideo.srcObject = localStream;
-            
-            // Show call UI
-            chatContainer.classList.add('hidden');
-            callContainer.classList.remove('hidden');
-            
-            // Set caller flag
-            isCaller = true;
-            
-            // Create offer
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-            
-            // In a real app, you would send the offer to the other peer via a signaling server
-            // For this demo, we'll just simulate a connection
-            setTimeout(() => {
-                if (peerConnection) {
-                    simulateAnswer();
-                }
-            }, 1000);
-            
-        } catch (error) {
-            console.error('Error starting call:', error);
-            alert('Could not start call. Please check your microphone and camera permissions.');
-            endCall();
-        }
-    }
-
-    async function simulateAnswer() {
-        try {
-            // Create answer (simulated)
-            const answer = {
-                type: 'answer',
-                sdp: 'simulated-answer-sdp'
-            };
-            
-            await peerConnection.setRemoteDescription(answer);
-            
-        } catch (error) {
-            console.error('Error simulating answer:', error);
-            endCall();
-        }
-    }
-
-    function endCall() {
-        // Close peer connection
-        if (peerConnection) {
-            peerConnection.close();
-            peerConnection = null;
-        }
-        
-        // Stop local stream
-        if (localStream) {
-            localStream.getTracks().forEach(track => track.stop());
-            localStream = null;
-        }
-        
-        // Clear video elements
-        localVideo.srcObject = null;
-        remoteVideo.srcObject = null;
-        
-        // Reset UI
-        callContainer.classList.add('hidden');
-        chatContainer.classList.remove('hidden');
-        
-        // Reset call states
-        isCaller = false;
-        isAudioMuted = false;
-        isVideoOff = false;
-        toggleAudioBtn.innerHTML = '<i class="fas fa-microphone"></i> Mute';
-        toggleVideoBtn.innerHTML = '<i class="fas fa-video"></i> Video Off';
-    }
-
-    function toggleAudio() {
-        if (localStream) {
-            const audioTracks = localStream.getAudioTracks();
-            if (audioTracks.length > 0) {
-                isAudioMuted = !isAudioMuted;
-                audioTracks[0].enabled = !isAudioMuted;
-                toggleAudioBtn.innerHTML = isAudioMuted 
-                    ? '<i class="fas fa-microphone-slash"></i> Unmute' 
-                    : '<i class="fas fa-microphone"></i> Mute';
-            }
-        }
-    }
-
-    function toggleVideo() {
-        if (localStream) {
-            const videoTracks = localStream.getVideoTracks();
-            if (videoTracks.length > 0) {
-                isVideoOff = !isVideoOff;
-                videoTracks[0].enabled = !isVideoOff;
-                toggleVideoBtn.innerHTML = isVideoOff 
-                    ? '<i class="fas fa-video-slash"></i> Video On' 
-                    : '<i class="fas fa-video"></i> Video Off';
-                
-                // Show/hide local video element if video is turned on/off
-                localVideo.style.display = isVideoOff ? 'none' : 'block';
-            }
-        }
-    }
-
-    // WebRTC Event Handlers
-    function handleICECandidateEvent(event) {
-        if (event.candidate) {
-            // In a real app, you would send the ICE candidate to the other peer
-            console.log('ICE candidate:', event.candidate);
-        }
-    }
-
-    function handleICEConnectionStateChangeEvent() {
-        if (peerConnection) {
-            console.log('ICE connection state:', peerConnection.iceConnectionState);
-            if (peerConnection.iceConnectionState === 'disconnected' || 
-                peerConnection.iceConnectionState === 'failed') {
-                endCall();
-            }
-        }
-    }
-
-    function handleICEGatheringStateChangeEvent() {
-        if (peerConnection) {
-            console.log('ICE gathering state:', peerConnection.iceGatheringState);
-        }
-    }
-
-    function handleSignalingStateChangeEvent() {
-        if (peerConnection) {
-            console.log('Signaling state:', peerConnection.signalingState);
-        }
-    }
-
-    function handleTrackEvent(event) {
-        // Add remote stream to video element
-        remoteStream = event.streams[0];
-        remoteVideo.srcObject = remoteStream;
     }
 });
