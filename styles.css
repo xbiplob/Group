@@ -170,7 +170,7 @@ body, html {
 .message-sender {
   font-weight: bold;
   color: #ffffff;
-  font-size: 0.95rem;
+  font-size: 0.75rem; /* smaller */
   max-width: 70%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -178,7 +178,7 @@ body, html {
 }
 
 .message-time {
-  font-size: 0.75rem;
+  font-size: 0.65rem; /* smaller */
   color: var(--gray-color);
   white-space: nowrap;
 }
@@ -214,13 +214,13 @@ body, html {
 }
 
 .own-message .message-sender {
-  color: #ffffff;
   font-weight: bold;
+  color: #ffffff;
+  font-size: 0.75rem; /* smaller */
 }
 
-.own-message .message-text {
-  background: linear-gradient(145deg, #00c853, #1b5e20);
-  color: white;
+.own-message .message-time {
+  font-size: 0.65rem; /* smaller */
 }
 
 /* Message Input */
