@@ -43,7 +43,6 @@ body, html {
   transition: all 0.3s ease;
 }
 
-/* Auth Box */
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -76,7 +75,6 @@ body, html {
   cursor: pointer;
 }
 
-/* Chat Section */
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -130,58 +128,54 @@ body, html {
 
 .message {
   display: flex;
+  align-items: flex-start;
   margin-bottom: 12px;
   animation: fadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.message.own-message {
+  flex-direction: row-reverse;
 }
 
 .message-avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  margin-right: 10px;
   object-fit: cover;
+  margin: 0 10px;
 }
 
 .message-content {
   max-width: 80%;
   word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
-/* ✅ Sender Name & Time Layout */
+.own-message .message-content {
+  align-items: flex-end;
+}
+
 .message-header {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
   gap: 6px;
-  margin-bottom: 4px;
-  flex-wrap: nowrap;
+  align-items: center;
+  font-size: 0.7rem;
+  color: var(--gray-color);
 }
 
 .message-sender {
-  font-weight: 600;
+  font-weight: bold;
   color: #ffffff;
-  font-size: 0.72rem;
-  white-space: nowrap;
+  font-size: 0.75rem;
 }
 
 .message-time {
   font-size: 0.65rem;
   color: var(--gray-color);
-  white-space: nowrap;
 }
 
-/* 💬 Message Text Box */
 .message-text {
   background: linear-gradient(145deg, #1e88e5, #1565c0);
   color: white;
@@ -194,39 +188,8 @@ body, html {
   word-wrap: break-word;
 }
 
-/* ✅ Own Message Styling */
-.own-message {
-  justify-content: flex-end;
-}
-
-.own-message .message-content {
-  order: -1;
-  text-align: right;
-}
-
-.own-message .message-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  margin-bottom: 4px;
-  flex-wrap: nowrap;
-}
-
-.own-message .message-sender {
-  font-weight: 600;
-  color: #ffffff;
-  font-size: 0.72rem;
-}
-
-.own-message .message-time {
-  font-size: 0.65rem;
-  color: var(--gray-color);
-}
-
 .own-message .message-text {
   background: linear-gradient(145deg, #00c853, #1b5e20);
-  color: white;
 }
 
 /* Message Input */
@@ -298,5 +261,13 @@ body, html {
   .send-btn {
     padding: 8px 14px;
     font-size: 1rem;
+  }
+
+  .message-sender {
+    font-size: 0.7rem;
+  }
+
+  .message-time {
+    font-size: 0.6rem;
   }
 }
