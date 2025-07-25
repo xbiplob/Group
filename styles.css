@@ -43,7 +43,7 @@ body, html {
   transition: all 0.3s ease;
 }
 
-/* Auth Box */
+/* Auth Section */
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -158,31 +158,30 @@ body, html {
   word-break: break-word;
 }
 
+/* Message Header: sender + time */
 .message-header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 6px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+  flex-wrap: nowrap;
 }
 
 .message-sender {
-  font-weight: bold;
+  font-weight: 600;
   color: #ffffff;
-  font-size: 0.75rem; /* smaller */
-  max-width: 70%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.72rem;
   white-space: nowrap;
 }
 
 .message-time {
-  font-size: 0.65rem; /* smaller */
+  font-size: 0.65rem;
   color: var(--gray-color);
   white-space: nowrap;
 }
 
+/* Message Text */
 .message-text {
   background: linear-gradient(145deg, #1e88e5, #1565c0);
   color: white;
@@ -195,7 +194,7 @@ body, html {
   word-wrap: break-word;
 }
 
-/* Own Message Styling */
+/* Own Message */
 .own-message {
   justify-content: flex-end;
 }
@@ -210,17 +209,24 @@ body, html {
   justify-content: flex-end;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  margin-bottom: 3px;
 }
 
 .own-message .message-sender {
-  font-weight: bold;
+  font-size: 0.72rem;
+  font-weight: 600;
   color: #ffffff;
-  font-size: 0.75rem; /* smaller */
 }
 
 .own-message .message-time {
-  font-size: 0.65rem; /* smaller */
+  font-size: 0.65rem;
+  color: var(--gray-color);
+}
+
+.own-message .message-text {
+  background: linear-gradient(145deg, #00c853, #1b5e20);
+  color: white;
 }
 
 /* Message Input */
